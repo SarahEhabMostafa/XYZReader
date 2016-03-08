@@ -31,9 +31,9 @@
     <color name="ltgray">#ffe0e0e0</color>
 
     <!--<color name="colorPrimary2">#2157F1</color>-->
-    <color name="colorPrimary2">#2157F1</color>
+    <!--<color name="colorPrimary2">#2157F1</color>
     <color name="colorPrimaryDark2">#04561A</color>
     <color name="colorAccent2">#04561A</color>
-    <color name="ltgray2">#ffe0e0e0</color>
+    <color name="ltgray2">#ffe0e0e0</color>-->
 
 </resources>

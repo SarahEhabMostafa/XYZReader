@@ -9,8 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -37,23 +37,17 @@ public class ArticleDetailFragment extends Fragment implements
     private static final String TAG = "ArticleDetailFragment";
 
     public static final String ARG_ITEM_ID = "item_id";
-//    private static final float PARALLAX_FACTOR = 1.25f;
 
     private Cursor mCursor;
     private long mItemId;
     private View mRootView;
     private int mMutedColor = 0xFF333333;
-//    private ObservableScrollView mScrollView;
-    private NestedScrollView mScrollView;
-//    private DrawInsetsFrameLayout mDrawInsetsFrameLayout;
+//    private NestedScrollView mScrollView;
     private ColorDrawable mStatusBarColorDrawable;
 
-//    private int mTopInset;
-//    private View mPhotoContainerView;
     private ImageView mPhotoView;
-//    private int mScrollY;
-//    private boolean mIsCard = false;
-//    private int mStatusBarFullOpacityBottom;
+    private FloatingActionButton floatingActionButton;
+    TextView titleView, bylineView, bodyView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -78,9 +72,6 @@ public class ArticleDetailFragment extends Fragment implements
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
 
-//        mIsCard = getResources().getBoolean(R.bool.detail_is_card);
-//        mStatusBarFullOpacityBottom = getResources().getDimensionPixelSize(
-//                R.dimen.detail_card_top_margin);
         setHasOptionsMenu(true);
     }
 
@@ -103,95 +94,42 @@ public class ArticleDetailFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
-//        mDrawInsetsFrameLayout = (DrawInsetsFrameLayout)
-//                mRootView.findViewById(R.id.draw_insets_frame_layout);
-//        mDrawInsetsFrameLayout.setOnInsetsCallback(new DrawInsetsFrameLayout.OnInsetsCallback() {
-//            @Override
-//            public void onInsetsChanged(Rect insets) {
-//                mTopInset = insets.top;
-//            }
-//        });
-
-//        Toolbar toolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
-////        if(getSupportActionBar()!=null) {
-////            setSupportActionBar(toolbar);
-////            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-////        } else if(getActionBar()!=null) {
-////            getActionBar().setDisplayHomeAsUpEnabled(true);
-////        }
-//        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-
-
-        mScrollView = (NestedScrollView) mRootView.findViewById(R.id.scrollview);
-//        mScrollView.setCallbacks(new ObservableScrollView.Callbacks() {
-//            @Override
-//            public void onScrollChanged() {
-//                mScrollY = mScrollView.getScrollY();
-//                getActivityCast().onUpButtonFloorChanged(mItemId, ArticleDetailFragment.this);
-//                mPhotoContainerView.setTranslationY((int) (mScrollY - mScrollY / PARALLAX_FACTOR));
-//                updateStatusBar();
-//            }
-//        });
-
+//        mScrollView = (NestedScrollView) mRootView.findViewById(R.id.scrollview);
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
-//        mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
+        floatingActionButton = (FloatingActionButton) mRootView.findViewById(R.id.share_fab);
 
         mStatusBarColorDrawable = new ColorDrawable(0);
 
-        mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                        .setType("text/plain")
-                        .setText("Some sample text")
-                        .getIntent(), getString(R.string.action_share)));
+                String titleText = titleView.getText().toString() != null?
+                        titleView.getText().toString() + "\n\n" : "";
+                String bodyText = bodyView.getText().toString() != null?
+                        bodyView.getText().toString() : "";
+                String shareText = titleText + bodyText;
+
+                        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
+                                .setType("text/plain")
+                                .setText(shareText)
+                                .getIntent(), getString(R.string.action_share)));
             }
         });
-
         bindViews();
-        updateStatusBar();
+
         return mRootView;
     }
-
-    private void updateStatusBar() {
-//        int color = 0;
-//        if (mPhotoView != null && mTopInset != 0 && mScrollY > 0) {
-//            float f = progress(mScrollY,
-//                    mStatusBarFullOpacityBottom - mTopInset * 3,
-//                    mStatusBarFullOpacityBottom - mTopInset);
-//            color = Color.argb((int) (255 * f),
-//                    (int) (Color.red(mMutedColor) * 0.9),
-//                    (int) (Color.green(mMutedColor) * 0.9),
-//                    (int) (Color.blue(mMutedColor) * 0.9));
-//        }
-//        mStatusBarColorDrawable.setColor(color);
-////        mDrawInsetsFrameLayout.setInsetBackground(mStatusBarColorDrawable);
-    }
-
-//    static float progress(float v, float min, float max) {
-//        return constrain((v - min) / (max - min), 0, 1);
-//    }
-//
-//    static float constrain(float val, float min, float max) {
-//        if (val < min) {
-//            return min;
-//        } else if (val > max) {
-//            return max;
-//        } else {
-//            return val;
-//        }
-//    }
 
     private void bindViews() {
         if (mRootView == null) {
             return;
         }
 
-        TextView titleView = (TextView) mRootView.findViewById(R.id.article_title);
-        TextView bylineView = (TextView) mRootView.findViewById(R.id.article_byline);
+        titleView = (TextView) mRootView.findViewById(R.id.article_title);
+        bylineView = (TextView) mRootView.findViewById(R.id.article_byline);
         bylineView.setMovementMethod(new LinkMovementMethod());
-        TextView bodyView = (TextView) mRootView.findViewById(R.id.article_body);
-        bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
+        bodyView = (TextView) mRootView.findViewById(R.id.article_body);
+        bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Roboto-Thin.ttf"), 1);
 
         if (mCursor != null) {
             mRootView.setAlpha(0);
@@ -218,13 +156,12 @@ public class ArticleDetailFragment extends Fragment implements
                                 mPhotoView.setImageBitmap(imageContainer.getBitmap());
                                 mRootView.findViewById(R.id.meta_bar)
                                         .setBackgroundColor(mMutedColor);
-                                updateStatusBar();
                             }
                         }
 
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-
+                            mPhotoView.setImageResource(R.drawable.default_article);
                         }
                     });
         } else {
@@ -264,15 +201,4 @@ public class ArticleDetailFragment extends Fragment implements
         mCursor = null;
         bindViews();
     }
-
-//    public int getUpButtonFloor() {
-//        if (mPhotoContainerView == null || mPhotoView.getHeight() == 0) {
-//            return Integer.MAX_VALUE;
-//        }
-//
-//        // account for parallax
-//        return mIsCard
-//                ? (int) mPhotoContainerView.getTranslationY() + mPhotoView.getHeight() - mScrollY
-//                : mPhotoView.getHeight() - mScrollY;
-//    }
 }
