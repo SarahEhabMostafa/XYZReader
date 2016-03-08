@@ -42,7 +42,6 @@ public class ArticleDetailFragment extends Fragment implements
     private long mItemId;
     private View mRootView;
     private int mMutedColor = 0xFF333333;
-//    private NestedScrollView mScrollView;
     private ColorDrawable mStatusBarColorDrawable;
 
     private ImageView mPhotoView;
@@ -94,7 +93,6 @@ public class ArticleDetailFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
-//        mScrollView = (NestedScrollView) mRootView.findViewById(R.id.scrollview);
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
         floatingActionButton = (FloatingActionButton) mRootView.findViewById(R.id.share_fab);
 
@@ -103,16 +101,16 @@ public class ArticleDetailFragment extends Fragment implements
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String titleText = titleView.getText().toString() != null?
+                String titleText = titleView.getText().toString() != null ?
                         titleView.getText().toString() + "\n\n" : "";
-                String bodyText = bodyView.getText().toString() != null?
+                String bodyText = bodyView.getText().toString() != null ?
                         bodyView.getText().toString() : "";
                 String shareText = titleText + bodyText;
 
-                        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                                .setType("text/plain")
-                                .setText(shareText)
-                                .getIntent(), getString(R.string.action_share)));
+                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
+                        .setType("text/plain")
+                        .setText(shareText)
+                        .getIntent(), getString(R.string.action_share)));
             }
         });
         bindViews();
