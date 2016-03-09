@@ -29,6 +29,7 @@
     <color name="colorPrimaryDark">#303F9F</color>-->
     <color name="colorAccent">#F15321</color>
     <color name="ltgray">#ffe0e0e0</color>
+    <color name="articleSubtitle">#6000</color>
 
     <!--<color name="colorPrimary2">#2157F1</color>-->
     <!--<color name="colorPrimary2">#2157F1</color>

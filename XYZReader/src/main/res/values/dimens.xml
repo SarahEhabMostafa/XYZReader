@@ -7,8 +7,14 @@
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">12dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+    <dimen name="borderWidth0">0dp</dimen>
 
     <dimen name="toolbarMinHeight">128dp</dimen>
     <dimen name="padding16dp">16dp</dimen>
+
+    <dimen name="margin4dp">4dp</dimen>
+    <dimen name="margin8dp">8dp</dimen>
+    <dimen name="margin28dp">28dp</dimen>
+    <dimen name="margin72dp">72dp</dimen>
 
 </resources>
